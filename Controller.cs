@@ -1,4 +1,6 @@
 ﻿using Microsoft.Playwright;
+using ShopifyPlaywrightSitemapScraping;
+using System.Text.Json;
 
 public class Controller
 {
@@ -56,9 +58,9 @@ public class Controller
         if (uri.EndsWith(".json") == false)
             uri += ".json";
         await page.GotoAsync(uri);
-        return = await page.EvalOnSelectorAsync<string>("pre", "element => element.textContent");
+        return await page.EvalOnSelectorAsync<string>("pre", "element => element.textContent");
     }
-    
+
     public async Task DownloadToFS()
     {
         Directory.CreateDirectory($"../../../{baseName}/");
@@ -69,6 +71,20 @@ public class Controller
             string productJson = await this.GetProductJSON(productSitemap[i]);
             File.WriteAllText($"../../../{baseName}/{productSitemap[i].Replace($"{baseUrl}/products/", "")}.json", productJson);
         }
+    }
+
+    public List<Product> RetrieveProductData()
+    {
+        List<Product> k = new List<Product>();
+        var m = Directory.GetFiles($"../../../{baseName}/");
+        foreach (var item in m)
+        {
+            string content = File.ReadAllText(item);
+            Root rootList = JsonSerializer.Deserialize<Root>(content);
+
+            k.Add(rootList.Product);
+        }
+        return k;
     }
 
     private string deriveName()
