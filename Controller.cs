@@ -2,7 +2,7 @@
 
 public class Controller
 {
-    private readonly HttpClient _httpClient;
+    //private readonly HttpClient _httpClient;
     private IPlaywright playwright;
     private IBrowser browser;
     private IPage page;
@@ -10,7 +10,7 @@ public class Controller
 
     public Controller()
     {
-        _httpClient = new HttpClient();
+        //_httpClient = new HttpClient();
     }
 
     public async Task Init(string baseUrl)

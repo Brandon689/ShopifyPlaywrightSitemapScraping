@@ -1,14 +1,12 @@
-﻿
-Controller s = new Controller();
+﻿Controller controller = new Controller();
 
-await s.Init("https://www.kawaiies.com");
+await controller.Init("https://www.kawaiies.com");
 
-var n = await s.GetSitemapLinks();
+var n = await controller.GetSitemapLinks();
 foreach (var item in n)
 {
     Console.WriteLine(item);
 }
-;
-var t = await s.GetProductLinks(n[0]);
+var t = await controller.GetProductLinks(n[0]);
 
-;
+await controller.Dispose();
