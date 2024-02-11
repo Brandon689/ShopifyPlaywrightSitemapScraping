@@ -1,13 +1,6 @@
 ﻿using Microsoft.Playwright;
-using ShopifyPlaywrightSitemapScraping;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
-public class SitemapScraper
+public class Controller
 {
     private readonly HttpClient _httpClient;
     private IPlaywright playwright;
@@ -15,7 +8,7 @@ public class SitemapScraper
     private IPage page;
     private string baseUrl;
 
-    public SitemapScraper()
+    public Controller()
     {
         _httpClient = new HttpClient();
     }

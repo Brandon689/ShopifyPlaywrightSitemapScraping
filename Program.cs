@@ -1,5 +1,5 @@
 ﻿
-SitemapScraper s = new SitemapScraper();
+Controller s = new Controller();
 
 await s.Init("https://www.kawaiies.com");
 
