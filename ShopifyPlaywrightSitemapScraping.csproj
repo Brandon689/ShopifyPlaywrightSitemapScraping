@@ -8,9 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="img\**" />
     <Compile Remove="json\**" />
+    <Compile Remove="kawaiiesIMG\**" />
+    <Compile Remove="kawaiies\**" />
+    <EmbeddedResource Remove="img\**" />
     <EmbeddedResource Remove="json\**" />
+    <EmbeddedResource Remove="kawaiiesIMG\**" />
+    <EmbeddedResource Remove="kawaiies\**" />
+    <None Remove="img\**" />
     <None Remove="json\**" />
+    <None Remove="kawaiiesIMG\**" />
+    <None Remove="kawaiies\**" />
   </ItemGroup>
 
   <ItemGroup>

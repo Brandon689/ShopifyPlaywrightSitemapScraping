@@ -2,9 +2,8 @@
 {
     internal class ParallelDownloader
     {
-        public async Task Run(List<string> imageUrls)
+        public void Run(List<string> imageUrls, string outputDirectory)
         {
-            string outputDirectory = "../../../img/";
             Directory.CreateDirectory(outputDirectory);
 
             Parallel.ForEach(imageUrls, imageUrl =>

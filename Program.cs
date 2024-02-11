@@ -14,22 +14,6 @@ await controller.Init("https://www.kawaiies.com");
 
 //await controller.DownloadToFS();
 
-
-ParallelDownloader download = new();
-
 var r = controller.RetrieveProductData();
 
-
-//test
-List<string> list = new List<string>();
-foreach (var item in r)
-{
-    foreach (var it in item.Images)
-    {
-        list.Add(it.Src);
-    }
-}
-Stopwatch sw = Stopwatch.StartNew();
-await download.Run(list);
-Console.WriteLine(sw.ElapsedMilliseconds);
-await controller.Dispose();
+controller.DownloadImages(r);

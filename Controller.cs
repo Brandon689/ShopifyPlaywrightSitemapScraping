@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using ShopifyPlaywrightSitemapScraping;
+using System.Diagnostics;
 using System.Text.Json;
 
 public class Controller
@@ -10,6 +11,7 @@ public class Controller
     private IPage page;
     private string baseUrl;
     private string baseName;
+    private ParallelDownloader download = new();
 
     public Controller()
     {
@@ -63,13 +65,14 @@ public class Controller
 
     public async Task DownloadToFS()
     {
-        Directory.CreateDirectory($"../../../{baseName}/");
+        string dir = $"../../../{baseName}/";
+        Directory.CreateDirectory(dir);
         var sitemap = await this.GetSitemapLinks();
         var productSitemap = await this.GetProductLinks(sitemap[0]);
         for (var i = 0; i < productSitemap.Length; i++)
         {
             string productJson = await this.GetProductJSON(productSitemap[i]);
-            File.WriteAllText($"../../../{baseName}/{productSitemap[i].Replace($"{baseUrl}/products/", "")}.json", productJson);
+            File.WriteAllText($"{dir}{productSitemap[i].Replace($"{baseUrl}/products/", "")}.json", productJson);
         }
     }
 
@@ -85,6 +88,21 @@ public class Controller
             k.Add(rootList.Product);
         }
         return k;
+    }
+
+    public void DownloadImages(List<Product> products)
+    {
+        string dir = $"../../../{baseName}IMG/";
+        Directory.CreateDirectory(dir);
+        List<string> list = new List<string>();
+        foreach (var item in products)
+        {
+            foreach (var it in item.Images)
+            {
+                list.Add(it.Src);
+            }
+        }
+        download.Run(list, dir);
     }
 
     private string deriveName()
