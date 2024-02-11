@@ -18,25 +18,25 @@ public class SitemapScraper
     public SitemapScraper()
     {
         _httpClient = new HttpClient();
-        baseUrl = "https://www.kawaiies.com";
     }
 
-    public async Task V()
+    public async Task Init(string baseUrl)
     {
+        baseUrl = baseUrl;
         playwright = await Playwright.CreateAsync();
         browser = await playwright.Chromium.LaunchAsync(new() { Headless = true });
         page = await browser.NewPageAsync();
         await page.RouteAsync("**/*.js", route => route.AbortAsync());
     }
 
-    public async Task Delete()
+    public async Task Dispose()
     {
         await browser.CloseAsync();
         playwright.Dispose();
         await browser.DisposeAsync();
     }
 
-    public async ValueTask<string[]> Sitemap()
+    public async ValueTask<string[]> GetSitemapLinks()
     {
         await page.GotoAsync($"{baseUrl}/sitemap.xml");
         var m = await page.QuerySelectorAllAsync("sitemapindex sitemap");
@@ -48,7 +48,7 @@ public class SitemapScraper
         return x;
     }
 
-    public async ValueTask<string[]> Products(string collection)
+    public async ValueTask<string[]> GetProductLinks(string collection)
     {
         await page.GotoAsync(collection);
         var m = await page.QuerySelectorAllAsync("urlset url loc");
